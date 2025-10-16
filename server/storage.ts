@@ -1,38 +1,40 @@
-import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
-
-// modify the interface with any CRUD methods
-// you might need
+// Reference: javascript_database blueprint
+import { optimizations, type Optimization, type InsertOptimization } from "@shared/schema";
+import { db } from "./db";
+import { eq, desc } from "drizzle-orm";
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  // Optimization operations
+  createOptimization(optimization: InsertOptimization): Promise<Optimization>;
+  getOptimizationsByAsin(asin: string): Promise<Optimization[]>;
+  getAllOptimizations(): Promise<Optimization[]>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User>;
-
-  constructor() {
-    this.users = new Map();
+export class DatabaseStorage implements IStorage {
+  async createOptimization(insertOptimization: InsertOptimization): Promise<Optimization> {
+    const [optimization] = await db
+      .insert(optimizations)
+      .values(insertOptimization)
+      .returning();
+    return optimization;
   }
 
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+  async getOptimizationsByAsin(asin: string): Promise<Optimization[]> {
+    const results = await db
+      .select()
+      .from(optimizations)
+      .where(eq(optimizations.asin, asin))
+      .orderBy(desc(optimizations.createdAt));
+    return results;
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
-  }
-
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+  async getAllOptimizations(): Promise<Optimization[]> {
+    const results = await db
+      .select()
+      .from(optimizations)
+      .orderBy(desc(optimizations.createdAt));
+    return results;
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
