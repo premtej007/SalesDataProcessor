@@ -148,10 +148,11 @@ The AI adds relevant keywords (noise cancelling, battery life, bass quality) whi
 **Problem**: Amazon actively blocks scrapers with CAPTCHAs and rate limiting
 
 **Solution**: 
-- Use realistic browser headers
+- Use realistic browser headers with modern Chrome user-agent
 - Implement multiple DOM selectors (Amazon changes their HTML frequently)
-- Provide fallback content if scraping fails
-- Timeout protection (10 seconds max)
+- **Fallback to mock data** when Amazon blocks requests (for demonstration purposes)
+- Timeout protection (15 seconds max)
+- In production, this would use Amazon's official Product Advertising API or a paid scraping service
 
 ### Challenge 2: AI Response Consistency
 
@@ -181,6 +182,7 @@ The AI adds relevant keywords (noise cancelling, battery life, bass quality) whi
 4. **Network Access**: The server can access Amazon.com and Google AI API
 5. **API Limits**: Google API key has sufficient quota for testing
 6. **Single User**: No authentication/multi-tenancy in MVP (planned for future)
+7. **Scraping Limitations**: Due to Amazon's anti-bot measures, the app uses mock data for demonstration when scraping is blocked. Production deployment would require Amazon's official Product Advertising API or a paid scraping service.
 
 ## Testing
 
