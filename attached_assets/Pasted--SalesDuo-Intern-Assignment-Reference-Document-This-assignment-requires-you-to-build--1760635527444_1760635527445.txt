@@ -1,0 +1,71 @@
+# **SalesDuo Intern** Assignment Reference Document
+
+---
+
+This assignment requires you to build a small web application that leverages an AI model (such as Gemini, OpenAI, or similar) to optimize Amazon product listings. The app will fetch product details based on an Amazon Standard Identification Number (ASIN), use AI to generate improved content, display comparisons in the UI, and store optimization history in a database.
+
+The goal is to demonstrate your skills in full-stack development, API integration, data handling, and clear documentation.
+
+## Tech Stack
+
+- **Backend**: Node.js
+- **Frontend**: React
+- **Database**: MySQL
+
+## Functional Requirements
+
+1. **User Input and Data Fetching**:
+    - The user enters an ASIN via the frontend UI.
+    - The backend fetches the product details directly from the Amazon product page, including:
+        - Title
+        - Bullet points
+        - Description
+    - Note: You may need to use web scraping techniques (e.g., via libraries like Puppeteer or Cheerio) to extract this data, as Amazon does not provide a free public API for product details. Ensure compliance with Amazon's terms of service and handle potential anti-scraping measures.
+2. **AI Optimization**:
+    - Integrate an AI model (e.g., OpenAI's GPT series, Google's Gemini, or equivalent) to generate:
+        - An improved title: Keyword-rich and readable.
+        - Rewritten bullet points: Clear and concise.
+        - Enhanced description: Persuasive but compliant with Amazon's guidelines (e.g., avoid unsubstantiated claims).
+        - 3–5 new keyword suggestions: Relevant for SEO improvement.
+    - Craft effective prompts for the AI to ensure high-quality outputs. Include your prompt engineering reasoning in the README.
+3. **UI Display**:
+    - Show the original and optimized versions side-by-side in the React frontend.
+    - Use a clean, intuitive layout (e.g., columns or tabs) for easy comparison.
+4. **Data Storage and History**:
+    - For each ASIN processed, store the following in MySQL:
+        - Original details (title, bullet points, description).
+        - Optimized details (title, bullet points, description, keywords).
+        - Timestamps (e.g., creation time for each optimization run).
+    - Enable viewing the history of optimizations for each ASIN (e.g., via a history page or endpoint that retrieves past records).
+    - Track improvements over time (e.g., allow multiple optimizations per ASIN and display changes).
+5. **Additional Features**:
+    - Handle errors gracefully (e.g., invalid ASIN, fetching failures).
+    - Ensure the app is responsive and user-friendly.
+
+## Evaluation Criteria
+
+We will evaluate your submission based on:
+
+- **Proper Data Fetching and AI Integration**: Accurate scraping of Amazon data and effective use of AI for optimizations.
+- **Clean and Structured Code**: Well-organized Node.js backend (e.g., modular routes, error handling) and React frontend (e.g., component-based structure, state management).
+- **Storage and Retrieval of Optimization History**: Reliable MySQL integration for storing and querying data, with support for history viewing.
+- **Documentation**: A short [README.md](http://readme.md/) file explaining:
+    - Setup instructions (e.g., how to install dependencies, set up the database, run the app).
+    - The AI prompts used and your reasoning behind them.
+    - Any assumptions, challenges, or design decisions.
+
+## Submission Guidelines
+
+- Submit your code via a GitHub repository (or similar).
+- Include all source code, database schema (e.g., SQL scripts for table creation), and the README.
+- Ensure the app can be run locally with minimal setup (e.g., provide environment variables for AI API keys).
+- Do not include sensitive information like API keys in the repository; use .env files or placeholders.
+
+## Tips for Success
+
+- Start with backend setup: Implement ASIN fetching and AI calls first.
+- Use libraries like Axios for HTTP requests, Cheerio/Puppeteer for scraping, and an ORM like Sequelize for MySQL interactions.
+- For AI integration, sign up for a free tier if possible and handle rate limits.
+- Test with real ASINs (e.g., B07H65KP63 for a sample product).
+- Focus on code quality: Use ESLint for linting, and keep components small and reusable.
+- If you encounter issues with scraping, consider fallback mock data for development, but ensure production fetches live data.
